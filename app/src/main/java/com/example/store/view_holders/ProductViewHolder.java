@@ -28,7 +28,8 @@ public class ProductViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setPrice(Float price) {
-        this.hPrice.setText(price.toString());
+        String price_str = price.toString() + " $";
+        this.hPrice.setText(price_str);
     }
 
     public void setDescription(String description) {

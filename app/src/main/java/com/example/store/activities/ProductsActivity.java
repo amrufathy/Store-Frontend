@@ -60,7 +60,7 @@ public class ProductsActivity extends AppCompatActivity {
                                 Product product = new Product();
                                 product.setId(jo.getInt("id"));
                                 product.setName(jo.getString("name"));
-                                product.setPrice((float) jo.getDouble("price"));
+                                product.setPrice(jo.getDouble("price"));
                                 product.setDescription(jo.getString("description"));
                                 product.setStock(jo.getInt("stock"));
 

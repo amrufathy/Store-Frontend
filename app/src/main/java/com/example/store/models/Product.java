@@ -3,7 +3,7 @@ package com.example.store.models;
 public class Product {
     private Integer id;
     private String name;
-    private Float price;
+    private Double price;
     private String description;
     private Integer stock;
 
@@ -27,11 +27,11 @@ public class Product {
         this.name = name;
     }
 
-    public Float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

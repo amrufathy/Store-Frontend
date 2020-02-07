@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.store.R;
+import com.example.store.activities.ProductActivity;
 import com.example.store.models.Product;
 import com.example.store.view_holders.ProductViewHolder;
 
@@ -43,8 +44,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
         holder.getLinearLayout().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), null);
+                Intent intent = new Intent(v.getContext(), ProductActivity.class);
                 intent.putExtra("product_id", product.getId());
+                intent.putExtra("product_name", product.getName());
+                intent.putExtra("product_description", product.getDescription());
+                intent.putExtra("product_stock", product.getStock());
+                intent.putExtra("product_price", product.getPrice());
                 v.getContext().startActivity(intent);
             }
         });

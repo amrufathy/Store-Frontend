@@ -13,6 +13,10 @@
         android:roundIcon="@drawable/nav_cart"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".activities.ProductActivity" />
         <activity android:name=".activities.ProductsActivity" />
         <activity android:name=".MainActivity">

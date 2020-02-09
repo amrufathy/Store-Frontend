@@ -1,7 +1,10 @@
 package com.example.store.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,7 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.store.R;
-import com.example.store.adapters.ProductAdapter;
+import com.example.store.adapters.ProductsAdapter;
 import com.example.store.models.Product;
 
 import org.json.JSONArray;
@@ -23,17 +26,21 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ProductsActivity extends AppCompatActivity {
-
+public class ProductsActivity extends HomeActivity {
 
     RecyclerView recyclerView;
     ArrayList<Product> productArrayList;
-    ProductAdapter productAdapter;
+    ProductsAdapter productsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_products);
+        // setContentView(R.layout.activity_products);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        //inflate your activity layout here!
+        View contentView = inflater.inflate(R.layout.activity_products, null, false);
+        mDrawer.addView(contentView, 0);
 
         String url = "http://10.0.2.2:3000/products.json";
 
@@ -70,8 +77,8 @@ public class ProductsActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        productAdapter = new ProductAdapter(productArrayList);
-                        recyclerView.setAdapter(productAdapter);
+                        productsAdapter = new ProductsAdapter(productArrayList);
+                        recyclerView.setAdapter(productsAdapter);
                     }
 
 

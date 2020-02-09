@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
+public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
 
     private List<Product> productList;
 
-    public ProductAdapter(ArrayList<Product> products) {
+    public ProductsAdapter(ArrayList<Product> products) {
         productList = products;
     }
 

@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
-
-    <group android:checkableBehavior="single">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
         <item
-            android:id="@+id/nav_cart"
-            android:icon="@drawable/nav_cart"
-            android:title="My Cart"
-            android:iconTint="@android:color/white"/>
-
+            android:id="@+id/nav_item_products"
+            android:icon="@drawable/ic_drafts_black_24dp"
+            android:title="Products" />
         <item
-            android:id="@+id/nav_orders"
-            android:icon="@drawable/orders"
-            android:title="Orders"
-            android:iconTint="@android:color/white" />
-
+            android:id="@+id/nav_item_orders"
+            android:icon="@drawable/ic_library_books_black_24dp"
+            android:title="Orders" />
         <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/logout"
-            android:title="Logout"
-            android:iconTint="@android:color/white" />
+            android:id="@+id/nav_item_cart"
+            android:icon="@drawable/ic_shopping_cart_black_24dp"
+            android:title="Cart" />
     </group>
-
-
-
+    <group android:id="@+id/group_menu">
+        <item
+            android:id="@+id/nav_item_logout"
+            android:icon="@drawable/ic_power_settings_new_black_24dp"
+            android:title="Logout" />
+    </group>
 </menu>

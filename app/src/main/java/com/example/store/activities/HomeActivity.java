@@ -39,15 +39,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar mToolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
+        mToolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
 
         mDrawer = findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(this, mDrawer, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
 
         mDrawer.addDrawerListener(toggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);

@@ -13,7 +13,7 @@
         android:roundIcon="@drawable/nav_cart"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.CartActivity"></activity>
+        <activity android:name=".activities.CartActivity"/>
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.ProductActivity" />
         <activity android:name=".activities.ProductsActivity" />

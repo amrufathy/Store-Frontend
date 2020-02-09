@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +40,7 @@ public class ProductsActivity extends HomeActivity {
         //inflate your activity layout here!
         View contentView = inflater.inflate(R.layout.activity_products, null, false);
         mDrawer.addView(contentView, 0);
+        getSupportActionBar().setTitle("Products");
 
         String url = "http://10.0.2.2:3000/products.json";
 

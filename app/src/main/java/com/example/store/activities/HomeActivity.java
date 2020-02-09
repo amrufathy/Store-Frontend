@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -81,7 +80,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (item.getItemId() == R.id.nav_item_orders) {
             startActivity(new Intent(this, null));
         } else if (item.getItemId() == R.id.nav_item_cart) {
-            startActivity(new Intent(this, null));
+            startActivity(new Intent(this, CartActivity.class));
         } else if (item.getItemId() == R.id.nav_item_logout) {
             LoginManager.getInstance().logOut();
             startActivity(new Intent(this, MainActivity.class));

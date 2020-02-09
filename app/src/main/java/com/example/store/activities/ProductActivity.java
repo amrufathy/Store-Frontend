@@ -14,12 +14,10 @@ import com.example.store.database.SQLiteDriver;
 
 public class ProductActivity extends HomeActivity {
 
+    SQLiteDriver db;
     private TextView tv_productQuantity;
-
     private Double price;
     private Integer stock;
-
-    SQLiteDriver db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +28,7 @@ public class ProductActivity extends HomeActivity {
         //inflate your activity layout here!
         View contentView = inflater.inflate(R.layout.activity_product, null, false);
         mDrawer.addView(contentView, 0);
+        getSupportActionBar().setTitle("Product");
 
         // display product
         TextView tv_productName = findViewById(R.id.product_name);

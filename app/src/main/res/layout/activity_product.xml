@@ -8,7 +8,6 @@
     android:paddingTop="60dp"
     tools:context=".activities.ProductActivity">
 
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,9 +18,7 @@
         app:cardUseCompatPadding="true"
         tools:context=".activities.ProductActivity">
 
-
         <LinearLayout
-            android:id="@+id/product_card_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -31,91 +28,82 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/product_name"
+                android:id="@+id/tv_product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Product Name"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/product_stock"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_product_description"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Stock:" />
+                android:layout_marginTop="10dp"
+                android:text="Product Description"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18dp" />
 
             <TextView
-                android:id="@+id/product_price"
+                android:id="@+id/tv_product_stock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Stock" />
+
+            <TextView
+                android:id="@+id/tv_product_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Product Price"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="12dp" />
+                android:textSize="16dp" />
 
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_marginTop="50dp">
 
-        <Button
-            android:id="@+id/btn_product_decrease_quantity"
-            style="@style/Widget.Design.FloatingActionButton"
-            android:layout_width="70dp"
-            android:layout_height="60dp"
-            android:text="-"
-            android:textSize="45sp"
-            android:textColor="#ffffff" />
-
-        <TextView
-            android:id="@+id/product_quantity_amount"
+        <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+            android:id="@+id/btn_product_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="16dp"
-            android:text="1"
-            android:textSize="50sp"
-            android:textStyle="bold" />
+            android:layout_centerHorizontal="true"
+            app:initialNumber="1"
+            app:textSize="14dp" />
 
-        <Button
-            android:id="@+id/btn_product_increase_quantity"
-            style="@style/Widget.Design.FloatingActionButton"
-            android:layout_width="70dp"
-            android:layout_height="55dp"
-            android:backgroundTint="@color/com_facebook_blue"
-            android:text="+"
-            android:textSize="40sp"
-            android:textColor="#ffffff"
-            app:backgroundTint="@color/com_facebook_blue" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/btn_add_product_to_cart"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tv_total_product_price"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:background="@color/colorPrimary"
-            android:elevation="6dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="Add to cart"
-            android:textColor="#ffffff" />
+            android:layout_below="@+id/btn_product_quantity"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Total price: 0 $"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
 
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/btn_add_product_to_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/colorPrimary"
+        android:elevation="6dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="Add to cart"
+        android:textColor="#ffffff" />
+
 </LinearLayout>

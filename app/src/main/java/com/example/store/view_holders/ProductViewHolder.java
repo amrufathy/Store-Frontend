@@ -17,9 +17,9 @@ public class ProductViewHolder extends RecyclerView.ViewHolder {
     public ProductViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        this.hName = itemView.findViewById(R.id.item_product_name);
-        this.hPrice = itemView.findViewById(R.id.item_product_price);
-        this.hDescription = itemView.findViewById(R.id.item_product_description);
+        this.hName = itemView.findViewById(R.id.tv_item_product_name);
+        this.hPrice = itemView.findViewById(R.id.tv_item_product_price);
+        this.hDescription = itemView.findViewById(R.id.tv_item_product_description);
         this.hLinearLayout = itemView.findViewById(R.id.item_product_card_layout);
     }
 

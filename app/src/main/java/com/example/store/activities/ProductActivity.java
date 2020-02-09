@@ -9,15 +9,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.store.R;
 import com.example.store.database.SQLiteDriver;
 
 public class ProductActivity extends HomeActivity {
 
-    SQLiteDriver db;
-    private TextView tv_productQuantity;
+    private SQLiteDriver db;
+    private ElegantNumberButton btn_productQuantity;
+    private TextView et_totalPrice;
     private Double price;
-    private Integer stock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,42 +32,29 @@ public class ProductActivity extends HomeActivity {
         getSupportActionBar().setTitle("Product");
 
         // display product
-        TextView tv_productName = findViewById(R.id.product_name);
-        TextView tv_productPrice = findViewById(R.id.product_price);
-        TextView tv_productDescription = findViewById(R.id.product_description);
-        TextView tv_productStock = findViewById(R.id.product_stock);
+        TextView tv_productName = findViewById(R.id.tv_product_name);
+        TextView tv_productPrice = findViewById(R.id.tv_product_price);
+        TextView tv_productDescription = findViewById(R.id.tv_product_description);
+        TextView tv_productStock = findViewById(R.id.tv_product_stock);
 
         final Intent intent = getIntent();
         tv_productName.setText(intent.getStringExtra("product_name"));
         price = intent.getDoubleExtra("product_price", 0);
-        tv_productPrice.setText(price.toString());
+        tv_productPrice.setText(String.format("Item price: %.2f $", price));
         tv_productDescription.setText(intent.getStringExtra("product_description"));
-        stock = intent.getIntExtra("product_stock", 0);
-        tv_productStock.setText(stock.toString());
+        Integer stock = intent.getIntExtra("product_stock", 0);
+        tv_productStock.setText(String.format("%d items remaining", stock));
 
+        et_totalPrice = findViewById(R.id.tv_total_product_price);
+        et_totalPrice.setText(String.format("Total price: %.2f $", price));
 
-        // onclick quantity buttons
-        Button btn_increaseQuantity = findViewById(R.id.btn_product_increase_quantity);
-        Button btn_decreaseQuantity = findViewById(R.id.btn_product_decrease_quantity);
-        tv_productQuantity = findViewById(R.id.product_quantity_amount);
+        btn_productQuantity = findViewById(R.id.btn_product_quantity);
+        btn_productQuantity.setRange(1, stock);
 
-        btn_increaseQuantity.setOnClickListener(new View.OnClickListener() {
+        btn_productQuantity.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
             @Override
-            public void onClick(View v) {
-                Integer quantity = Integer.parseInt(tv_productQuantity.getText().toString());
-                quantity++;
-                if (quantity > stock) quantity = stock;
-                tv_productQuantity.setText(quantity.toString());
-            }
-        });
-
-        btn_decreaseQuantity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Integer quantity = Integer.parseInt(tv_productQuantity.getText().toString());
-                quantity--;
-                if (quantity < 0) quantity = 0;
-                tv_productQuantity.setText(quantity.toString());
+            public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
+                et_totalPrice.setText(String.format("Total price: %.2f $", newValue * price));
             }
         });
 
@@ -78,7 +66,7 @@ public class ProductActivity extends HomeActivity {
             @Override
             public void onClick(View v) {
                 int product_id = intent.getIntExtra("product_id", 0);
-                int quantity = Integer.parseInt(tv_productQuantity.getText().toString());
+                int quantity = Integer.parseInt(btn_productQuantity.getNumber());
                 double cost = quantity * price;
                 int customer_id = 0; // TODO: get current customer id
 

@@ -19,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.store.R;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
@@ -30,13 +31,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     ActionBarDrawerToggle toggle;
     TextView tv_navBarName;
     ImageView iv_navBarImg;
+    FloatingActionButton fb_cartCheckout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Toolbar mToolbar = findViewById(R.id.toolbar_main);
+        Toolbar mToolbar = findViewById(R.id.toolbar_home);
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
 
@@ -48,6 +50,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        fb_cartCheckout = findViewById(R.id.cart_floating_button);
+        fb_cartCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, CartActivity.class));
+            }
+        });
     }
 
     @Override
@@ -91,8 +101,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void setNavigationHeaderInfo() {
         View header = ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0);
-        tv_navBarName = header.findViewById(R.id.nav_header_textView);
-        iv_navBarImg = header.findViewById(R.id.nav_header_imageView);
+        tv_navBarName = header.findViewById(R.id.tv_navhead_name);
+        iv_navBarImg = header.findViewById(R.id.iv_navhead_profile);
 
         Profile profile = Profile.getCurrentProfile();
         if (profile != null) {

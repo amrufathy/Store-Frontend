@@ -4,46 +4,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="50dp"
+    android:paddingTop="60dp"
     tools:context=".activities.CartActivity">
 
     <RelativeLayout
-        android:id="@+id/cart_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        >
+        android:layout_height="50dp">
 
         <TextView
-            android:id="@+id/cart_total_price"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:id="@+id/tv_cart_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Total Price: {price} $"
             android:textColor="#000000"
-            android:textSize="20dp"
-            android:textAlignment="center"
-            android:layout_marginTop="10dp"
-            android:text="Total Price: {price}$"
-            />
+            android:textSize="20dp" />
 
     </RelativeLayout>
 
-    <RecyclerView
-        android:id="@+id/cart_list"
+    <ListView
+        android:id="@+id/lv_cart_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-
-    </RecyclerView>
+        android:layout_height="wrap_content" />
 
     <Button
-        android:id="@id/finalize_cart"
+        android:id="@+id/btn_checkout_cart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:textColor="#ffffff"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="15dp"
         android:background="@color/colorPrimary"
+        android:elevation="6dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="Checkout"
-        />
+        android:textColor="#ffffff" />
 
 </LinearLayout>

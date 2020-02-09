@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.example.store.R;
-import com.example.store.activities.HomeActivity;
 
 public class CartActivity extends HomeActivity {
 
@@ -20,5 +19,7 @@ public class CartActivity extends HomeActivity {
         View contentView = inflater.inflate(R.layout.activity_cart, null, false);
         mDrawer.addView(contentView, 0);
         getSupportActionBar().setTitle("Cart");
+
+        fb_cartCheckout.setVisibility(View.INVISIBLE);
     }
 }

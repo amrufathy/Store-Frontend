@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
 
-        LoginButton loginButton = findViewById(R.id.fb_login_button);
+        LoginButton loginButton = findViewById(R.id.btn_fb_login);
         loginButton.setPermissions("public_profile, email");
         // If you are using in a fragment, call loginButton.setFragment(this);
 

@@ -46,7 +46,7 @@ public class ProductsActivity extends HomeActivity {
 
         productArrayList = new ArrayList<>();
 
-        recyclerView = findViewById(R.id.products_recycler_view);
+        recyclerView = findViewById(R.id.rv_products_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         RequestQueue queue = Volley.newRequestQueue(this);

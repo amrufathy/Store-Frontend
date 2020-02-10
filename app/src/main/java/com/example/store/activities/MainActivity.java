@@ -2,10 +2,8 @@ package com.example.store.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.store.R;
@@ -28,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-
-        Log.d("facebook login status", Boolean.toString(isLoggedIn));
 
         if (isLoggedIn) {
             startActivity(new Intent(this, ProductsActivity.class));
@@ -64,21 +60,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-//        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-//        Boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-//
-//        Log.d("post facebook login status", isLoggedIn.toString());
-//
-//        if (isLoggedIn) {
-//            Log.d("post facebook login status", isLoggedIn.toString());
-//            startActivity(new Intent(this, ProductsActivity.class));
-//        }
     }
 
     @Override

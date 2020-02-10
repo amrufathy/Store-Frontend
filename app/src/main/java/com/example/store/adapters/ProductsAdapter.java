@@ -43,7 +43,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
 
         holder.getLinearLayout().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(@NonNull View v) {
                 Intent intent = new Intent(v.getContext(), ProductActivity.class);
                 intent.putExtra("product_id", product.getId());
                 intent.putExtra("product_name", product.getName());

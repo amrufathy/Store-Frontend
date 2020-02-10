@@ -9,15 +9,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.store.R;
 import com.example.store.database.SQLiteDriver;
 
 public class ProductActivity extends HomeActivity {
 
+    @Nullable
     private SQLiteDriver db;
     private ElegantNumberButton btn_productQuantity;
-    private TextView et_totalPrice;
+    private TextView tv_totalPrice;
     private Double price;
 
     @Override
@@ -45,8 +48,8 @@ public class ProductActivity extends HomeActivity {
         Integer stock = intent.getIntExtra("product_stock", 0);
         tv_productStock.setText(String.format("%d items remaining", stock));
 
-        et_totalPrice = findViewById(R.id.tv_total_product_price);
-        et_totalPrice.setText(String.format("Total price: %.2f $", price));
+        tv_totalPrice = findViewById(R.id.tv_total_product_price);
+        tv_totalPrice.setText(String.format("Total price: %.2f $", price));
 
         btn_productQuantity = findViewById(R.id.btn_product_quantity);
         btn_productQuantity.setRange(1, stock);
@@ -54,24 +57,26 @@ public class ProductActivity extends HomeActivity {
         btn_productQuantity.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
             @Override
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-                et_totalPrice.setText(String.format("Total price: %.2f $", newValue * price));
+                tv_totalPrice.setText(String.format("Total price: %.2f $", newValue * price));
             }
         });
 
 
         // add to cart
-        db = new SQLiteDriver(getApplicationContext());
+        db = SQLiteDriver.getInstance(getApplicationContext());
         Button btn_addProductToCart = findViewById(R.id.btn_add_product_to_cart);
         btn_addProductToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int customer_id = 0; // TODO: get customer id
                 int product_id = intent.getIntExtra("product_id", 0);
+                String product_name = intent.getStringExtra("product_name");
                 int quantity = Integer.parseInt(btn_productQuantity.getNumber());
                 double cost = quantity * price;
-                int customer_id = 0; // TODO: get current customer id
 
-                if (db.save(customer_id, product_id, quantity, cost)) {
+                if (db.save(customer_id, product_id, product_name, quantity, cost)) {
                     Toast.makeText(getApplicationContext(), "Item added to cart successfully", Toast.LENGTH_LONG).show();
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Can't add item to cart", Toast.LENGTH_LONG).show();
                 }

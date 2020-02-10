@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,11 +57,9 @@ public class ProductsActivity extends HomeActivity {
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
 
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(@NonNull JSONArray response) {
 
                         try {
-                            Log.d("bibo", response.getJSONObject(0).toString());
-
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject jo = response.getJSONObject(i);
 
@@ -85,7 +84,7 @@ public class ProductsActivity extends HomeActivity {
                 }, new Response.ErrorListener() {
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onErrorResponse(@NonNull VolleyError error) {
                         // TODO: Handle error
                         Log.d("Error fetching products", error.toString());
                     }

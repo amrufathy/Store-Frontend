@@ -43,7 +43,7 @@ public class ProductsActivity extends HomeActivity {
         mDrawer.addView(contentView, 0);
         getSupportActionBar().setTitle("Products");
 
-        String url = "http://10.0.2.2:3000/products.json";
+        String url = getString(R.string.backend_base_url) + "products.json";
 
         productArrayList = new ArrayList<>();
 

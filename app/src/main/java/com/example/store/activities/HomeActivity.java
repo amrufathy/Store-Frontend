@@ -58,6 +58,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(HomeActivity.this, CartActivity.class));
             }
         });
+
+        setNavigationHeaderInfo();
     }
 
     @Override
@@ -74,8 +76,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        setNavigationHeaderInfo();
-
         if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -104,10 +104,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         tv_navBarName = header.findViewById(R.id.tv_navhead_name);
         iv_navBarImg = header.findViewById(R.id.iv_navhead_profile);
 
-        Profile profile = Profile.getCurrentProfile();
-        if (profile != null) {
-            tv_navBarName.setText(profile.getName());
-            Picasso.get().load(profile.getProfilePictureUri(128, 128)).into(iv_navBarImg);
-        }
+        tv_navBarName.setText(Profile.getCurrentProfile().getName());
+        Picasso.get().load(Profile.getCurrentProfile().getProfilePictureUri(128, 128)).into(iv_navBarImg);
     }
 }

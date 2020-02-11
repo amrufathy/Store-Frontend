@@ -16,6 +16,8 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
 
+        <activity android:name=".activities.OrderActivity" />
+        <activity android:name=".activities.OrdersActivity" />
         <activity android:name=".activities.CartActivity" />
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.ProductActivity" />

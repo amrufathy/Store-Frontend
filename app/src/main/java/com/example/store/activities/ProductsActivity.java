@@ -29,9 +29,9 @@ import java.util.ArrayList;
 
 public class ProductsActivity extends HomeActivity {
 
-    RecyclerView recyclerView;
-    ArrayList<Product> productArrayList;
-    ProductsAdapter productsAdapter;
+    private RecyclerView recyclerView;
+    private ArrayList<Product> productArrayList;
+    private ProductsAdapter productsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class ProductsActivity extends HomeActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
 
-        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
 
                     @Override
@@ -90,7 +90,7 @@ public class ProductsActivity extends HomeActivity {
                     }
                 });
 
-        queue.add(jsonObjectRequest);
+        queue.add(jsonArrayRequest);
     }
 
     @Override

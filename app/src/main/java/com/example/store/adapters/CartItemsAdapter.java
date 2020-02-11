@@ -18,8 +18,11 @@ import com.example.store.models.CartItem;
 import java.util.ArrayList;
 
 public class CartItemsAdapter extends ArrayAdapter<CartItem> {
-    public CartItemsAdapter(@NonNull Context context, @NonNull ArrayList<CartItem> itemsList) {
+    private boolean showButton;
+
+    public CartItemsAdapter(@NonNull Context context, @NonNull ArrayList<CartItem> itemsList, boolean showButton) {
         super(context, 0, itemsList);
+        this.showButton = showButton;
     }
 
     @NonNull
@@ -37,15 +40,20 @@ public class CartItemsAdapter extends ArrayAdapter<CartItem> {
         tv_itemNameQuantity.setText(String.format("%d x %s", item.getQuantity(), item.getProductName()));
         tv_itemPrice.setText(String.format("%.2f $", item.getCost()));
 
-        final SQLiteDriver db = SQLiteDriver.getInstance(getContext());
         ImageButton ib_deleteItem = convertView.findViewById(R.id.ibtn_cart_item_delete);
-        ib_deleteItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                db.deleteRecord(item.getCustomerId(), item.getProductId(), item.getQuantity());
-                remove(item);
-            }
-        });
+        if (this.showButton) {
+            final SQLiteDriver db = SQLiteDriver.getInstance(getContext());
+
+            ib_deleteItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    db.deleteRecord(item.getCustomerId(), item.getProductId(), item.getQuantity());
+                    remove(item);
+                }
+            });
+        } else {
+            ib_deleteItem.setVisibility(View.INVISIBLE);
+        }
 
         return convertView;
     }

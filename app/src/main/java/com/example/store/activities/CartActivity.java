@@ -50,10 +50,10 @@ public class CartActivity extends HomeActivity {
         tv_cartTotalPrice = findViewById(R.id.tv_cart_total_price);
 
         // load data from sqlite
-        SQLiteDriver db = SQLiteDriver.getInstance(getApplicationContext());
+        final SQLiteDriver db = SQLiteDriver.getInstance(getApplicationContext());
         final ArrayList<CartItem> itemsList = db.readAllProducts();
 
-        CartItemsAdapter itemsAdapter = new CartItemsAdapter(this, itemsList);
+        CartItemsAdapter itemsAdapter = new CartItemsAdapter(this, itemsList, true);
         ListView listView = findViewById(R.id.lv_cart_list);
         listView.setAdapter(itemsAdapter);
 
@@ -71,17 +71,15 @@ public class CartActivity extends HomeActivity {
         btn_cartCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: checkout cart to backend
                 if (itemsList.size() > 0) {
                     String text = String.format("Checking out %d items", itemsList.size());
-                    Toast.makeText(CartActivity.this, text, Toast.LENGTH_SHORT).show();
+                    final Toast tst_checkOut = Toast.makeText(CartActivity.this, text, Toast.LENGTH_SHORT);
+                    tst_checkOut.show();
 
                     JSONArray jsonArray = new JSONArray();
                     for (CartItem item : itemsList) {
                         jsonArray.put(item.toJSON());
                     }
-
-                    Log.d("JSON", jsonArray.toString());
 
                     String baseUrl = getString(R.string.backend_base_url) + "orders";
                     String url = String.format("%s?token=%s", baseUrl, AccessToken.getCurrentAccessToken().getToken());
@@ -90,19 +88,24 @@ public class CartActivity extends HomeActivity {
                             new Response.Listener<JSONArray>() {
                                 @Override
                                 public void onResponse(JSONArray response) {
-                                    Log.d("response", response.toString());
-                                    Toast.makeText(CartActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                    tst_checkOut.cancel();
+
+                                    if (response.length() > 0) {
+                                        db.clearRecords();
+                                        finish();
+                                        Toast.makeText(CartActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             },
                             new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
+                                    tst_checkOut.cancel();
                                     Toast.makeText(CartActivity.this, "Error checking out cart", Toast.LENGTH_SHORT).show();
                                 }
                             });
 
                     queue.add(jsonArrayRequest);
-
                 } else {
                     Toast.makeText(CartActivity.this, "No items to checkout", Toast.LENGTH_SHORT).show();
                 }

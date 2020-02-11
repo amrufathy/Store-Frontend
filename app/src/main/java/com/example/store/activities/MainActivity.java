@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final RequestQueue queue = Volley.newRequestQueue(this);
-        serverAuthenticated = false;
+        serverAuthenticated = isLoggedIn();
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (isLoggedIn()) {
+        if (isLoggedIn() && serverAuthenticated) {
             startActivity(new Intent(this, ProductsActivity.class));
         } else {
             serverAuthenticated = false;
@@ -104,6 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isLoggedIn() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        return accessToken != null && !accessToken.isExpired() && serverAuthenticated;
+        return accessToken != null && !accessToken.isExpired();
     }
 }

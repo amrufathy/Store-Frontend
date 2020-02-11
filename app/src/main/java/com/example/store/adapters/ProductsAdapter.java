@@ -40,6 +40,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
         holder.setName(product.getName());
         holder.setPrice(product.getPrice());
         holder.setDescription(product.getDescription());
+        holder.setImage();
 
         holder.getLinearLayout().setOnClickListener(new View.OnClickListener() {
             @Override

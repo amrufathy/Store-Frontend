@@ -31,7 +31,7 @@ public class SQLiteDriver extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    @Nullable
+    @NonNull
     public static SQLiteDriver getInstance(@NonNull Context ctx) {
 
         // Use the application context, which will ensure that you
@@ -47,7 +47,7 @@ public class SQLiteDriver extends SQLiteOpenHelper {
     public void onCreate(@NonNull SQLiteDatabase db) {
         /*
         CREATE TABLE IF NOT EXISTS DATABASE_NAME.TABLE_NAME (
-            CUSTOMER_ID INTEGER,
+            CUSTOMER_ID TEXT,
             PRODUCT_ID INTEGER,
             PRODUCT_NAME TEXT,
             QUANTITY INTEGER,
@@ -57,7 +57,7 @@ public class SQLiteDriver extends SQLiteOpenHelper {
 
         String query = String.format(
                 "CREATE TABLE IF NOT EXISTS %s (" +
-                        "%s INTEGER," +
+                        "%s TEXT," +
                         "%s INTEGER," +
                         "%s TEXT," +
                         "%s INTEGER," +
@@ -73,14 +73,33 @@ public class SQLiteDriver extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean save(int customer_id, int product_id, String product_name, int quantity, double cost) {
-        SQLiteDatabase db = getWritableDatabase();
+    public boolean save(String customer_id, int product_id, String product_name, int quantity, double cost) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        // check if product already exists in cart
+        String query = String.format("SELECT %s, %s FROM %s WHERE %s=%s AND %s=%d",
+                QUANTITY, COST, TABLE_NAME, CUSTOMER_ID, customer_id, PRODUCT_ID, product_id);
+        Cursor cursor = db.rawQuery(query, null);
+
+        Integer prev_quantity = 0;
+        Double prev_cost = 0.0;
+
+        if (cursor.moveToFirst()) {
+            prev_quantity = cursor.getInt(cursor.getColumnIndex(QUANTITY));
+            prev_cost = cursor.getDouble(cursor.getColumnIndex(COST));
+
+            deleteRecord(customer_id, product_id, prev_quantity);
+        }
+
+        cursor.close();
+
+        db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(CUSTOMER_ID, customer_id);
         values.put(PRODUCT_ID, product_id);
         values.put(PRODUCT_NAME, product_name);
-        values.put(QUANTITY, quantity);
-        values.put(COST, cost);
+        values.put(QUANTITY, quantity + prev_quantity);
+        values.put(COST, cost + prev_cost);
 
         long newRowId = db.insert(TABLE_NAME, null, values);
 
@@ -98,7 +117,7 @@ public class SQLiteDriver extends SQLiteOpenHelper {
         ArrayList<CartItem> itemsList = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            Integer customer_id = cursor.getInt(cursor.getColumnIndex(CUSTOMER_ID));
+            String customer_id = cursor.getString(cursor.getColumnIndex(CUSTOMER_ID));
             Integer product_id = cursor.getInt(cursor.getColumnIndex(PRODUCT_ID));
             String product_name = cursor.getString(cursor.getColumnIndex(PRODUCT_NAME));
             Integer quantity = cursor.getInt(cursor.getColumnIndex(QUANTITY));
@@ -116,9 +135,9 @@ public class SQLiteDriver extends SQLiteOpenHelper {
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_NAME);
     }
 
-    public void deleteRecord(int customer_id, int product_id, int quantity) {
+    public void deleteRecord(String customer_id, int product_id, int quantity) {
         String query = String.format(
-                "DELETE FROM %s WHERE %s = %d AND %s = %d AND %s = %d;",
+                "DELETE FROM %s WHERE %s=%s AND %s=%d AND %s=%d;",
                 TABLE_NAME, CUSTOMER_ID, customer_id, PRODUCT_ID, product_id, QUANTITY, quantity);
         getWritableDatabase().execSQL(query);
     }

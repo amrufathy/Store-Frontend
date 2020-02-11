@@ -2,9 +2,9 @@ package com.example.store.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.store.R;
 import com.example.store.adapters.ProductsAdapter;
 import com.example.store.models.Product;
+import com.facebook.AccessToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,14 +37,15 @@ public class ProductsActivity extends HomeActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // setContentView(R.layout.activity_products);
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         //inflate your activity layout here!
         View contentView = inflater.inflate(R.layout.activity_products, null, false);
         mDrawer.addView(contentView, 0);
         getSupportActionBar().setTitle("Products");
 
-        String url = getString(R.string.backend_base_url) + "products.json";
+        String baseUrl = getString(R.string.backend_base_url) + "products.json";
+        String url = String.format("%s?token=%s", baseUrl, AccessToken.getCurrentAccessToken().getToken());
 
         productArrayList = new ArrayList<>();
 
@@ -58,7 +60,6 @@ public class ProductsActivity extends HomeActivity {
 
                     @Override
                     public void onResponse(@NonNull JSONArray response) {
-
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject jo = response.getJSONObject(i);
@@ -85,14 +86,22 @@ public class ProductsActivity extends HomeActivity {
 
                     @Override
                     public void onErrorResponse(@NonNull VolleyError error) {
-                        // TODO: Handle error
-                        Log.d("Error fetching products", error.toString());
+                        Toast.makeText(ProductsActivity.this, "Error fetching products", Toast.LENGTH_SHORT).show();
                     }
                 });
 
         queue.add(jsonObjectRequest);
-
-
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
+        if (isLoggedIn) {
+            finishAffinity();
+        }
+    }
 }

@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.store.R;
 import com.example.store.database.SQLiteDriver;
+import com.facebook.Profile;
 
 public class ProductActivity extends HomeActivity {
 
@@ -27,7 +28,7 @@ public class ProductActivity extends HomeActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // setContentView(R.layout.activity_product);
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         //inflate your activity layout here!
         View contentView = inflater.inflate(R.layout.activity_product, null, false);
@@ -68,17 +69,17 @@ public class ProductActivity extends HomeActivity {
         btn_addProductToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int customer_id = 0; // TODO: get customer id
+                String customer_id = Profile.getCurrentProfile().getId();
                 int product_id = intent.getIntExtra("product_id", 0);
                 String product_name = intent.getStringExtra("product_name");
                 int quantity = Integer.parseInt(btn_productQuantity.getNumber());
                 double cost = quantity * price;
 
                 if (db.save(customer_id, product_id, product_name, quantity, cost)) {
-                    Toast.makeText(getApplicationContext(), "Item added to cart successfully", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Item added to cart successfully", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Can't add item to cart", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Can't add item to cart", Toast.LENGTH_SHORT).show();
                 }
             }
         });

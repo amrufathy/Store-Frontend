@@ -25,6 +25,7 @@ import com.facebook.login.widget.LoginButton;
 public class MainActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
+    private boolean serverAuthenticated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,45 +33,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final RequestQueue queue = Volley.newRequestQueue(this);
-
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-
-        if (isLoggedIn) {
-            startActivity(new Intent(this, ProductsActivity.class));
-        } else {
-            LoginManager.getInstance().logOut();
-        }
+        serverAuthenticated = false;
 
         callbackManager = CallbackManager.Factory.create();
 
-        LoginButton loginButton = findViewById(R.id.btn_fb_login);
+        final LoginButton loginButton = findViewById(R.id.btn_fb_login);
         loginButton.setPermissions("public_profile, email");
         // If you are using in a fragment, call loginButton.setFragment(this);
 
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
+            public void onSuccess(final LoginResult loginResult) {
                 // authenticate with backend
                 String baseUrl = getString(R.string.backend_base_url) + "check_mobile_login";
-                String url = String.format("%s?token=%s", baseUrl, AccessToken.getCurrentAccessToken().getToken());
+                String url = String.format("%s?token=%s", baseUrl, loginResult.getAccessToken().getToken());
 
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                AccessToken.setCurrentAccessToken(loginResult.getAccessToken());
                                 if (response.equals(Profile.getCurrentProfile().getId())) {
+                                    serverAuthenticated = true;
                                     Toast.makeText(MainActivity.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(MainActivity.this, ProductsActivity.class));
                                 }
                             }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, "Unable to authenticate with server", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(MainActivity.this, "Unable to authenticate with server", Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
                 queue.add(stringRequest);
             }
@@ -92,5 +88,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (isLoggedIn()) {
+            startActivity(new Intent(this, ProductsActivity.class));
+        } else {
+            serverAuthenticated = false;
+            LoginManager.getInstance().logOut();
+        }
+    }
+
+    private boolean isLoggedIn() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null && !accessToken.isExpired() && serverAuthenticated;
     }
 }

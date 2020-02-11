@@ -72,6 +72,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         toggle.onConfigurationChanged(newConfig);
+
+        setNavigationHeaderInfo();
     }
 
     @Override
@@ -104,7 +106,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         tv_navBarName = header.findViewById(R.id.tv_navhead_name);
         iv_navBarImg = header.findViewById(R.id.iv_navhead_profile);
 
-        tv_navBarName.setText(Profile.getCurrentProfile().getName());
-        Picasso.get().load(Profile.getCurrentProfile().getProfilePictureUri(128, 128)).into(iv_navBarImg);
+        if (Profile.getCurrentProfile() != null) {
+            tv_navBarName.setText(Profile.getCurrentProfile().getName());
+            Picasso.get().load(Profile.getCurrentProfile().getProfilePictureUri(128, 128)).into(iv_navBarImg);
+        }
     }
 }

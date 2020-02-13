@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Store</string>
 
-    <string name="facebook_app_id">2550877271676365</string>
+    <string name="facebook_app_id">APP_ID</string>
     <string name="fb_login_protocol_scheme">fb2550877271676365</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
